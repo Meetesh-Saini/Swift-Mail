@@ -1,25 +1,18 @@
 import "./css/Dashboard.css"
 import Logo from "../assets/Logo.png"
-import { TbGridDots } from "react-icons/tb"
 import { BiSearch } from "react-icons/bi"
 import { BsChevronRight, BsPlusLg } from "react-icons/bs"
-import SettingsIcon from "../assets/Settings.png"
 import RefreshIcon from "../assets/Refresh.png"
-import ContactsIcon from "../assets/Contacts.png"
-import CalendarIcon from "../assets/Calendar.png"
-import {UpgradeIcon} from "../assets/Icons"
 import { useEffect, useState } from "react"
-import SearchPopup from "../components/SearchPopup"
-import SettingsPopup from "../components/SettingsPopup"
 import AccountsPopup from "../components/AccountsPopup"
-import GridPopup from "../components/GridPopup"
 import Inbox from "../components/Inbox"
 import EmptyFolder from "../components/EmptyFolder"
 import NewMessage from "./NewMessage"
 import { useNavigate } from "react-router-dom"
 import axios from "axios"
 import api from "../config/backend"
-
+import messageData  from "../config/messageData"
+// import { useNavigate } from "react-router-dom"
 const Dashboard = () => {
     const [popup, setPopup] = useState(false)
     const [activeSidebar, setActiveSidebar] = useState(0)
@@ -38,23 +31,16 @@ const Dashboard = () => {
         username = "undefined"
         navigate("/account/sign-in")
     }
-    const sidebar = ["Inbox", "Drafts", "Sent", "Starred"]
+    const sidebar = ["Inbox", "Sent"]
     const secondarySidebar= ["Archive", "Spam", "Trash", "All mail"]
 
     const Popup = () => {
         if (popup) {
-            if (popup === "search") {
-                return <SearchPopup setPopup={setPopup} />
-            }
-            if (popup === "settings") {
-                return <SettingsPopup setPopup={setPopup} />
-            }
+            
             if (popup === "accounts") {
                 return <AccountsPopup username={username} setPopup={setPopup} />
             }
-            if (popup === "grid") {
-                return <GridPopup setPopup={setPopup} />
-            }
+            
         }
         
         return undefined
@@ -79,69 +65,56 @@ const Dashboard = () => {
     useEffect(() => {
         const currentSidebar = activeSidebar < 4 ? sidebar[activeSidebar] : secondarySidebar[activeSidebar - 4]
 
-        document.title = `${currentSidebar} | theresa@proton.me | Proton Mail`
-
-        const token = localStorage.getItem("token")
+        document.title = `${currentSidebar} | Swift Mail`
+        setDatabase(messageData);
         
-        const init = async () => {
-            const response = await axios.post(`${api}/fetch-mailbox`, {
-                token,
-                location: currentSidebar
-            })
-
-            if (response.data.status === "success") {
-                setDatabase(response.data.messages)
-            }
-        }
-        
-        init()
     }, [activeSidebar])
 
+
+
+    const handleSignout = () => {
+        localStorage.removeItem("username")
+        localStorage.removeItem("password")
+        navigate("/account/sign-in")
+    }
+
     return (
-        <div className="_4esa">
+        <div className="navbarTop">
             {compose === true ? <NewMessage username={username} setPopup={setCompose} /> : undefined}
             <div className="navbar">
                 <div className="logo-caret">
                     <img src={Logo} alt="" />
-                    <TbGridDots 
-                        className={popup === "grid" ? "highlighted" : undefined}
-                        onClick={() => setPopup("grid")} 
-                    />
+                    
+                    
                 </div>
+                <p>Swift</p><p>Mail</p>
                 <div className="upgrade-container">
-                    <Popup />
-                    <div className="search-box" onClick={() => setPopup("search")}>
-                        <BiSearch />
-                        <span>Search messages</span>
+                    
+                    <div className="search-box" >
+                        <input type="text" name="" id="" className="searchbar" placeholder="Search Messages"/>
                     </div>
                     <div>
-                        <button>
-                            <UpgradeIcon />
-                            <span>Upgrade</span>
-                        </button>
-                        <img 
-                            src={SettingsIcon} 
-                            alt="Settings icon" 
-                            onClick={() => setPopup("settings")}
-                        />
+                        
+                        
                     </div>
                 </div>
                 <div 
                     className="accounts"
                     onClick={() => setPopup("accounts")}
                 >
+                    
                     <div>
                         <span>{username}</span>
-                        <span>{username}@proton.me</span>
+                        <span>{username}@swift.in</span>
                     </div>
-                    <div className={popup === "accounts" ? "accounts-icon highlighted" : "accounts-icon"}>
-                        v
-                    </div>
+                    <button className="buttonsign" onClick={() => handleSignout()}>
+                      Sign out
+                    </button>
                 </div>
             </div>
             <div className="container">
                 <div className="crash-doe">
-                    <button onClick={() => setCompose(prev => !prev)}>New message</button>
+                    <button onClick={() => setCompose(prev => !prev)}>Compose Mail</button>
                     {sidebar.map((item, index) => (
                         <div key={index} 
                             className={activeSidebar === index ? "recode-hang active" : "recode-hang"}
@@ -153,14 +126,14 @@ const Dashboard = () => {
                             {item}
                             {activeSidebar === index ? <img className="iambic-het" src={RefreshIcon} alt="" /> : undefined}
                             {item === "Inbox" ? (
-                                <span className={activeSidebar === 0 ? "rubied-jet" : "rubied-jet inactive" }>{unread}</span>
+                                <span className={activeSidebar === 0 ? "textState" : "textState inactive" }>{unread}</span>
                             ) : undefined}
                             {item === "Starred" ? (
                                 <span className={activeSidebar === 3 ? "griffins-bad" : "griffins-bad inactive"}>{starred}</span>
                             ) : undefined}
                         </div>
                     ))}
-                    <div className="slurry-crib">
+                    <div className="box1">
                         <div className={accordian.includes("more") ? "active" : undefined} >
                             <div 
                                 className={accordian.includes("more") ? "goaded-nus active" : "goaded-nus"} 
@@ -187,49 +160,12 @@ const Dashboard = () => {
                                 })}
                             </div>
                         ) : undefined}
-                        <div
-                            className={accordian.includes("folders") ? "sieve-care active" : "sieve-care"} 
-                            onClick={() => expand("folders")}
-                        >
-                            <div>
-                                <BsChevronRight />
-                                FOLDERS
-                            </div>
-                            <div className="lacteal-bay">
-                                <BsPlusLg />
-                                <img src={SettingsIcon} alt="" />
-                            </div>
-                        </div>
-                        {accordian.includes("folders") ? <div className="snaky-ooze">No folders</div> : undefined}
-                        <div
-                            className={accordian.includes("labels") ? "sieve-care active" : "sieve-care"} 
-                            style={{ borderBottomColor: "transparent" }}
-                            onClick={() => expand("labels")}
-                        >
-                            <div>
-                                <BsChevronRight />
-                                LABELS
-                            </div>
-                            <div className="lacteal-bay">
-                                <BsPlusLg />
-                                <img src={SettingsIcon} alt="" />
-                            </div>
-                        </div>
-                        {accordian.includes("labels") ? <div className="snaky-ooze no-border">No labels</div> : undefined}
+                  
+                       
                     </div>
-                    <div className="meter-container">
-                        <div className="meter">
-                            <div className="range"></div>
-                        </div>
-                        <div className="tubers-eat">
-                            <div>
-                                <strong>9.19 MB</strong> / 500.00 MB
-                            </div>
-                            <span>5.0.20.10</span>
-                        </div>
-                    </div>
+                    
                 </div>
-                {/* 0: Inbox, 3: Starred, 6: Trash */}
+      
                 {database.length ? 
                         <Inbox 
                             username={username} 
@@ -241,10 +177,7 @@ const Dashboard = () => {
                             database={database}
                             setDatabase={setDatabase}
                         /> : <EmptyFolder />}
-                <div className="sidebar">
-                    <img src={ContactsIcon} alt="" />
-                    <img src={CalendarIcon} alt="" />
-                </div>
+                
             </div>
         </div>
     )

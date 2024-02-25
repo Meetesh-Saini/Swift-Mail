@@ -27,10 +27,7 @@ const EmptyFolder = () => {
                                 >{item}</button>
                         })}
                     </div>
-                    <div className="acers-hid">
-                        Newest first
-                        <img src={ArrowIcon} alt="" />
-                    </div>
+                    
                 </div>
                 <div className="ropiness-ales">
                     <img src={active === 2 ? OpenMailboxIcon : SearchIcon} alt="" />

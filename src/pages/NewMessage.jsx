@@ -1,8 +1,6 @@
 import "./css/NewMessage.css"
-import MinimizeIcon from "../assets/MinimizeIcon.png"
-import ExpandIcon from "../assets/ExpandIcon.png"
+
 import CloseIcon from "../assets/CloseIcon.png"
-import AddContact from "../assets/AddContact.png"
 import DeleteIcon from "../assets/DeleteIcon.png"
 import LockIcon from "../assets/LockIcon.png"
 import EllipsisIcon from "../assets/EllipsisIcon.png"
@@ -19,24 +17,13 @@ const NewMessage = ({ username, setPopup }) => {
     const [recipient, setRecipient] = useState("")
     const [subject, setSubject] = useState("")
     const [focused, setFocused] = useState(false)
-    const [message, setMessage] = useState("\n\nSent with Proton Mail secure email.")
-    const [minimized, setMinimized] = useState(false)
+    const [message, setMessage] = useState("\n\nSent with Swift Mail secure email.")
+   
     const [loading, setLoading] = useState(false)
     const [notification, setNotification] = useState(undefined)
 
     const handleSend = async () => {
-        setLoading(true)
-        const token = localStorage.getItem("token")
-
-        const response = await axios.post(`${api}/compose-box`, {
-            toaddress: recipient,
-            subject,
-            body: message,
-            token
-        })
-
-        setNotification(response.data.reason)
-        setLoading(false)
+        
     }
 
     useEffect(() => {
@@ -48,21 +35,20 @@ const NewMessage = ({ username, setPopup }) => {
     }, [notification])
 
     return  (
-        <div className="_9zvh">
+        <div className="messageContainer">
             <div className="header">
                 <span>New Message</span>
                 <div className="teemer-sons">
-                    <img onClick={() => setMinimized(true)} src={MinimizeIcon} alt="" />
-                    <img onClick={() => setMinimized(false)} src={ExpandIcon} alt="" />
+                    
                     <img onClick={() => setPopup(false)} src={CloseIcon} alt="" />
                 </div>
             </div>
-            <div className={minimized === true ? "container minimized" : "container"}>
+            <div className={"container"}>
                 <div className="flamed-ibex">
                     <h2>From</h2>
                     <div className="lycra-rib">
-                        <span>{username}@proton.me</span>
-                        <BsChevronDown />
+                        <span>{username}@swift.in</span>
+                        
                     </div>
                 </div>
                 <div className="flamed-ibex">
@@ -75,9 +61,7 @@ const NewMessage = ({ username, setPopup }) => {
                             onFocus={() => setFocused("recipient")}
                             onBlur={() => setFocused(false)}
                         />
-                        <span>CC</span>
-                        <span>BCC</span>
-                        <img src={AddContact} alt="" />
+                       
                     </div>
                 </div>
                 <div className="flamed-ibex">
@@ -93,7 +77,7 @@ const NewMessage = ({ username, setPopup }) => {
                     </div>
                 </div>
                 <div className="eloiners-pep">
-                    <img src={TextEditor} alt="" />
+                    
                 </div>
                 <div className="bides-aril">
                     <textarea value={message} onChange={e => setMessage(e.target.value)} />
@@ -104,14 +88,10 @@ const NewMessage = ({ username, setPopup }) => {
                     </div>
                 ) : undefined}
             </div>
-            <div className={minimized === true ? "footer minimized" : "footer"}>
+            <div className={"footer"}>
+                
                 <div>
-                    <img src={DeleteIcon} alt="" />
-                    <img src={LockIcon} alt="" />
-                    <img src={EllipsisIcon} alt="" />
-                </div>
-                <div>
-                    <img src={AttachmentIcon} alt="" />
+                    
                     <div className="firebug-bum" onClick={() => handleSend()}>
                         {loading ? <img src={Spinner} alt="" /> : "Send"}
                         <div>

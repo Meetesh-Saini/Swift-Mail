@@ -1,17 +1,37 @@
-._4esa .navbar {
+.navbarTop .navbar {
     height: 68px;
     background-color: rgb(28, 20, 68);
     display: flex;
     align-items: center;
 }
-
-._4esa .navbar .logo-caret {
+.searchbar{
+    background-color: #1c1444;
+    border: none;
+    outline: none;
+    color: white;
+}
+.buttonsign{
+    width: 80px;
+    align-self: center;
+    line-height: 2;
+    height: 30px;
+    border: none;
+    border-radius: 4px;
+    outline: none;
+    color: rgb(6, 18, 29);
+    text-align: center;
+    background-color: rgb(12, 243, 243);
+}
+.navbarTop .navbar .logo-caret {
     display: flex;
     align-items: center;
     gap: 42px;
 }
+.navbarTop .navbar p {
+    color: rgb(39, 163, 194);
+}
 
-._4esa .navbar .logo-caret svg {
+.navbarTop .navbar .logo-caret svg {
     color: rgb(206, 206, 206);
     width: 30px;
     height: 30px;
@@ -19,13 +39,22 @@
     border-radius: 5px;
     cursor: pointer;
 }
+.navbarTop .navbar .logo-caret img {
+    color: rgb(206, 206, 206);
+    width: 30px;
+    height: 30px;
+    padding: 4px;
+    margin-left: 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
 
-._4esa .navbar .logo-caret svg:hover,
-._4esa .navbar .logo-caret svg.highlighted {
+.navbarTop .navbar .logo-caret svg:hover,
+.navbarTop .navbar .logo-caret svg.highlighted {
     background-color: rgba(205, 234, 255, 0.12);
 }
 
-._4esa .navbar .upgrade-container {
+.navbarTop .navbar .upgrade-container {
     position: relative;
     display: flex;
     align-items: center;
@@ -34,7 +63,7 @@
     padding-left: 10px;
 }
 
-._4esa .navbar .upgrade-container button {
+.navbarTop .navbar .upgrade-container button {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -50,26 +79,26 @@
     border-radius: 8px;
 }
 
-._4esa .navbar .upgrade-container button svg {
+.navbarTop .navbar .upgrade-container button svg {
     fill: white;
     width: 20px;
     height: 20px;
     transform: translate(0px, 2px);
 }
 
-._4esa .navbar .upgrade-container .search-box > svg {
+.navbarTop .navbar .upgrade-container .search-box > svg {
     fill: rgb(226, 226, 226);
     width: 17px;
     height: 17px;
 }
 
-._4esa .navbar .upgrade-container .search-box span {
+.navbarTop .navbar .upgrade-container .search-box span {
     color: rgba(171, 178, 196, 0.64);
     padding-left: 2px;
     font-size: 15px;
 }
 
-._4esa .navbar .upgrade-container .search-box {
+.navbarTop .navbar .upgrade-container .search-box {
     color: white;
     border: 1px solid rgb(146, 130, 212);
     width: 478px;
@@ -80,15 +109,16 @@
     outline: none;
     padding-left: 10px;
     cursor: text;
+    margin-left: 120px;
 }
 
-._4esa .navbar .upgrade-container > div {
+.navbarTop .navbar .upgrade-container > div {
     display: flex;
     align-items: center;
     gap: 8px;
 }
 
-._4esa .navbar .accounts {
+.navbarTop .navbar .accounts {
     display: flex;
     align-items: center;
     text-align: right;
@@ -97,7 +127,7 @@
     cursor: pointer;
 }
 
-._4esa .navbar .accounts div:first-of-type {
+.navbarTop .navbar .accounts div:first-of-type {
     color: rgb(210, 210, 210);
     display: flex;
     flex-direction: column;
@@ -105,12 +135,12 @@
     padding-right: 10px;
 }
 
-._4esa .navbar .accounts div:first-of-type span:last-of-type {
+.navbarTop .navbar .accounts div:first-of-type span:last-of-type {
     color: rgb(146, 130, 212);
     font-size: 12px;
 }
 
-._4esa .navbar .accounts .accounts-icon {
+.navbarTop .navbar .accounts .accounts-icon {
     color: rgb(212, 212, 212);
     border: 1px solid rgba(179, 170, 216, 0.719);
     border-radius: 8px;
@@ -121,16 +151,16 @@
     align-items: center;
 }
 
-._4esa .navbar .accounts .accounts-icon.highlighted {
+.navbarTop .navbar .accounts .accounts-icon.highlighted {
     background-color: rgba(74, 57, 143, 0.5);
 }
 
-._4esa .container {
+.navbarTop .container {
     display: flex;
     flex-direction: row;
 }
 
-._4esa .container .crash-doe {
+.navbarTop .container .crash-doe {
     position: relative;
     background-color: rgb(28, 20, 68);
     height: calc(100vh - 68px);
@@ -139,7 +169,7 @@
     z-index: 1;
 }
 
-._4esa .container .crash-doe > div {
+.navbarTop .container .crash-doe > div {
     display: flex;
     align-items: center;
     color: white;
@@ -152,76 +182,76 @@
     box-sizing: border-box;
 }
 
-._4esa .container .crash-doe > div:first-of-type {
+.navbarTop .container .crash-doe > div:first-of-type {
     margin-top: 10px;
 }
 
-._4esa .container .crash-doe > div.active {
+.navbarTop .container .crash-doe > div.active {
     background-color: rgba(74, 54, 143, 0.3);
     border-radius: 8px;
     font-weight: 500;
 }
 
-._4esa .container .crash-doe > button {
-    width: 236px;
+.navbarTop .container .crash-doe > button {
+    width: 186px;
     height: 44px;
-    background-color: rgb(124, 92, 255);
+    background-color: rgb(7, 245, 245);
     border-radius: 8px;
     border: none;
     font-size: 16px;
-    color: white;
+    color: rgb(3, 8, 15);
     cursor: pointer;
 }
 
-._4esa .container .crash-doe .recode-hang {
+.navbarTop .container .crash-doe .recode-hang {
     margin-top: 2px;
     margin-bottom: 2px;
 }
 
-._4esa .container .crash-doe .recode-hang:hover {
+.navbarTop .container .crash-doe .recode-hang:hover {
     cursor: pointer;
     border-radius: 8px;
     background-color: rgba(74, 54, 143, 0.185);
 }
 
-._4esa .container .crash-doe .recode-hang img:first-of-type {
+.navbarTop .container .crash-doe .recode-hang img:first-of-type {
     margin-right: 2px;
 }
 
-._4esa .container .crash-doe .rebater-foe {
+.navbarTop .container .crash-doe .rebater-foe {
     margin-top: 1px;
     margin-bottom: 1px;
 }
 
-._4esa .container .crash-doe .rebater-foe:hover {
+.navbarTop .container .crash-doe .rebater-foe:hover {
     cursor: pointer;
     border-radius: 8px;
     background-color: rgba(74, 54, 143, 0.185);
 }
 
-._4esa .container .crash-doe .rebater-foe img {
+.navbarTop .container .crash-doe .rebater-foe img {
     transform: translateX(-2px);
 }
 
-._4esa .container .crash-doe .rebater-foe:last-of-type img {
+.navbarTop .container .crash-doe .rebater-foe:last-of-type img {
     transform: translateX(-5px);
 }
 
-._4esa .container .crash-doe .rebater-foe:nth-of-type(2) img {
+.navbarTop .container .crash-doe .rebater-foe:nth-of-type(2) img {
     transform: translate(-3px, 1px);
 }
 
-._4esa .container .crash-doe .rebater-foe.active {
+.navbarTop .container .crash-doe .rebater-foe.active {
     background-color: rgba(74, 54, 143, 0.3);
     border-radius: 8px;
     font-weight: 500;
 }
 
-._4esa .container .crash-doe .iambic-het {
+.navbarTop .container .crash-doe .iambic-het {
     margin-left: auto;
 }
 
-._4esa .container .crash-doe .slurry-crib {
+.navbarTop .container .crash-doe .box1 {
     all: unset;
     margin-top: 5px;
     display: flex;
@@ -230,7 +260,7 @@
     align-items: center;
 }
 
-._4esa .container .crash-doe .griffins-bad {
+.navbarTop .container .crash-doe .griffins-bad {
     margin-left: 8px;
     margin-right: 10px;
     font-size: 13px;
@@ -238,11 +268,11 @@
     color: rgb(123, 131, 154);
 }
 
-._4esa .container .crash-doe .griffins-bad.inactive {
+.navbarTop .container .crash-doe .griffins-bad.inactive {
     margin-left: auto;
 }
 
-._4esa .container .crash-doe .slurry-crib > div {
+.navbarTop .container .crash-doe .box1 > div {
     width: 250px;
     display: flex;
     flex-direction: column;
@@ -254,7 +284,7 @@
     box-sizing: border-box;
 }
 
-._4esa .container .crash-doe .slurry-crib .goaded-nus {
+.navbarTop .container .crash-doe .box1 .goaded-nus {
     width: 236px;
     height: 36px;
     border-radius: 8px;
@@ -268,12 +298,12 @@
     cursor: pointer;
 }
 
-._4esa .container .crash-doe .slurry-crib .goaded-nus:hover {
+.navbarTop .container .crash-doe .box1 .goaded-nus:hover {
     color: white;
     background-color: rgba(74, 54, 143, 0.3);
 }
 
-._4esa .container .crash-doe .slurry-crib .sieve-care {
+.navbarTop .container .crash-doe .box1 .sieve-care {
     width: 250px;
     display: flex;
     flex-direction: row;
@@ -281,7 +311,7 @@
     align-items: center;
 }
 
-._4esa .container .crash-doe .slurry-crib .sieve-care > div:first-of-type {
+.navbarTop .container .crash-doe .box1 .sieve-care > div:first-of-type {
     width: 168px;
     height: 36px;
     box-sizing: border-box;
@@ -295,29 +325,29 @@
     cursor: pointer;
 }
 
-._4esa .container .crash-doe .slurry-crib .sieve-care > div:first-of-type:hover {
+.navbarTop .container .crash-doe .box1 .sieve-care > div:first-of-type:hover {
     color: white;
     background-color: rgba(74, 54, 143, 0.3);
 }
 
-._4esa .container .crash-doe .slurry-crib > div:hover svg {
+.navbarTop .container .crash-doe .box1 > div:hover svg {
     fill: white;
 }
 
-._4esa .container .crash-doe .slurry-crib > div svg {
+.navbarTop .container .crash-doe .box1 > div svg {
     width: 13px;
     height: auto;
 }
 
-._4esa .container .crash-doe .slurry-crib .active {
+.navbarTop .container .crash-doe .box1 .active {
     border-bottom-color: transparent;
 }
 
-._4esa .container .crash-doe .slurry-crib .active svg {
+.navbarTop .container .crash-doe .box1 .active svg {
     rotate: 90deg;
 }
 
-._4esa .container .crash-doe .slurry-crib > div .lacteal-bay {
+.navbarTop .container .crash-doe .box1 > div .lacteal-bay {
     display: flex;
     align-items: center;
     gap: 5px;
@@ -325,13 +355,13 @@
     padding-right: 12px;
 }
 
-._4esa .container .crash-doe .slurry-crib > div .lacteal-bay svg {
+.navbarTop .container .crash-doe .box1 > div .lacteal-bay svg {
     width: 18px;
     height: auto;
     fill: white;
 }
 
-._4esa .container .crash-doe .slurry-crib .taskers-ten {
+.navbarTop .container .crash-doe .box1 .taskers-ten {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -340,7 +370,7 @@
     margin-top: -5px;
 }
 
-._4esa .container .crash-doe .slurry-crib .taskers-ten > div {
+.navbarTop .container .crash-doe .box1 .taskers-ten > div {
     display: flex;
     align-items: center;
     width: 100%;
@@ -351,7 +381,7 @@
     box-sizing: border-box;
 }
 
-._4esa .container .crash-doe .slurry-crib .snaky-ooze {
+.navbarTop .container .crash-doe .box1 .snaky-ooze {
     all: unset;
     display: flex;
     align-items: center;
@@ -365,11 +395,11 @@
     box-sizing: border-box;
 }
 
-._4esa .container .crash-doe .slurry-crib .snaky-ooze.no-border {
+.navbarTop .container .crash-doe .box1 .snaky-ooze.no-border {
     border-color: transparent;
 }
 
-._4esa .container .crash-doe .meter-container {
+.navbarTop .container .crash-doe .meter-container {
     position: absolute;
     bottom: 0px;
     left: 0px;
@@ -380,7 +410,7 @@
     color: rgb(179, 163, 245);
 }
 
-._4esa .container .crash-doe .meter-container .meter {
+.navbarTop .container .crash-doe .meter-container .meter {
     position: relative;
     width: 224px;
     height: 4px;
@@ -388,7 +418,7 @@
     border-radius: 10px;
 }
 
-._4esa .container .crash-doe .meter-container .range {
+.navbarTop .container .crash-doe .meter-container .range {
     position: absolute;
     top: 0px;
     left: 0px;
@@ -398,13 +428,13 @@
     border-radius: 10px;
 }
 
-._4esa .container .crash-doe .meter-container .tubers-eat {
+.navbarTop .container .crash-doe .meter-container .tubers-eat {
     width: 100%;
     display: flex;
     justify-content: space-between;
 }
 
-._4esa .container .crash-doe .rubied-jet {
+.navbarTop .container .crash-doe .textState {
     background-color: rgb(145, 124, 231);
     padding: 3px 8px;
     font-size: 12px;
@@ -413,11 +443,11 @@
     box-sizing: border-box;
 }
 
-._4esa .container .crash-doe .rubied-jet.inactive {
+.navbarTop .container .crash-doe .textState.inactive {
     margin-left: auto;
 }
 
-._4esa .container .sidebar {
+.navbarTop .container .sidebar {
     width: 59px;
     height: calc(100vh - 68px);
     background-color: rgb(28, 20, 68);
