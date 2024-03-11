@@ -9,6 +9,7 @@ readme = "README.md"
 python = "^3.8"
 fastapi = "^0.110.0"
 uvicorn = {extras = ["standard"], version = "^0.28.0"}
+pymongo = "^4.6.2"
 
 [tool.poetry.group.dev.dependencies]
 black = "^24.2.0"
@@ -16,3 +17,4 @@ black = "^24.2.0"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
