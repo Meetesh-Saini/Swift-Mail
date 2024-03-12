@@ -7,12 +7,14 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.8"
-fastapi = "^0.110.0"
+fastapi = {extras = ["all"], version = "^0.110.0"}
 uvicorn = {extras = ["standard"], version = "^0.28.0"}
 pymongo = "^4.6.2"
+pyjwt = "^2.8.0"
 
 [tool.poetry.group.dev.dependencies]
 black = "^24.2.0"
+pytest = "^8.1.1"
 
 [build-system]
 requires = ["poetry-core"]
