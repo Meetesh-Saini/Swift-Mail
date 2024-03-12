@@ -4,9 +4,9 @@ from datetime import datetime
 
 
 class Mails(BaseModel):
-    from_: str  # Enforces valid email format
-    to: str
-    subject: str  # Optional field
-    body: str  # Default value for disabled
+    from_: EmailStr
+    to: EmailStr
+    subject: str
+    body: str
     labels: t.List[str]
     date: datetime

@@ -1,8 +1,7 @@
 from pydantic import BaseModel, EmailStr
 import typing as t
-from datetime import datetime
 
 
 class Labels(BaseModel):
-    email: str
+    email: EmailStr
     label: t.List[str]
