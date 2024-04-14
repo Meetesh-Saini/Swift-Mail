@@ -152,4 +152,4 @@ const messageData = [
   },
 ];
 
-export default messageData;
+module.exports=messageData;

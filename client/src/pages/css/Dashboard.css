@@ -71,12 +71,35 @@
     margin-right: 4px;
     color: white;
     font-size: 14px;
-    color: white;
+
     border: 1px solid rgb(138, 110, 255);
     background-color: transparent;
     width: 112px;
     height: 36px;
     border-radius: 8px;
+}
+.button123 {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 10px;
+    width: 100%;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    color: #ffffff;
+    background-color: transparent;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.button123:hover {
+    background-color: #0056b3;
+}
+
+.button123:active {
+    transform: translateY(1px);
 }
 
 .navbarTop .navbar .upgrade-container button svg {
@@ -260,6 +283,50 @@
     align-items: center;
 }
 
+.box2 {
+    display: flex;
+    flex-direction: column;
+    align-items:flex-start;
+    width: 100%;
+}
+
+.labels-container {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+   align-items: flex-start;
+}
+
+.label-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Align button to the left side */
+    font-size: xx-small;
+}
+
+.button123 {
+    /* Add your button styles here */
+    margin-left: -25px; /* Add some margin if needed */
+    width: 250px;
+    display: flex;
+    align-items: flex-start;
+    font-size: 12px;
+}
+.label-item img {
+    width: 50px; /* Adjust as needed */
+    height: 50px; /* Adjust as needed */
+}
+
+.label-item div {
+    margin-top: 5px; /* Adjust as needed */
+    text-align: center;
+}
+
+.aligner{
+    display: flex;
+    justify-content: space-between;
+
+}
 .navbarTop .container .crash-doe .griffins-bad {
     margin-left: 8px;
     margin-right: 10px;
@@ -393,6 +460,7 @@
     color: rgb(179, 163, 245);
     border-bottom: 1px solid rgb(65, 48, 133);
     box-sizing: border-box;
+    flex-direction: column;
 }
 
 .navbarTop .container .crash-doe .box1 .snaky-ooze.no-border {
