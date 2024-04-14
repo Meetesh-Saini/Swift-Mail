@@ -1,13 +1,4 @@
-from fastapi import FastAPI
-from swiftmail.routes import base_router
+from swiftmail import app
 
-
-def get_application() -> FastAPI:
-    application = FastAPI()
-
-    application.include_router(base_router)
-
-    return application
-
-
-app = get_application()
+if __name__ == "__main__":
+    app.run(debug=True, port=5000)

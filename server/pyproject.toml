@@ -2,15 +2,16 @@
 name = "swiftmail"
 version = "0.1.0"
 description = "API for Swift-Mail"
-authors = ["Meetesh Saini <code.meeteshsaini@gmail.com>"]
+authors = ["Meetesh Saini <code.meeteshsaini@gmail.com>","Dhananjay Chauhan <dj.0.0omicron.mic@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.8"
-fastapi = {extras = ["all"], version = "^0.110.0"}
-uvicorn = {extras = ["standard"], version = "^0.28.0"}
 pymongo = "^4.6.2"
-pyjwt = "^2.8.0"
+flask = "^3.0.3"
+flask-sqlalchemy = "^3.1.1"
+flask-pymongo = "^2.3.0"
+flask-jwt-extended = "^4.6.0"
 
 [tool.poetry.group.dev.dependencies]
 black = "^24.2.0"
