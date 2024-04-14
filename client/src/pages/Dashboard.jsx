@@ -12,6 +12,8 @@ import { useNavigate } from "react-router-dom"
 import axios from "axios"
 import api from "../config/backend"
 import messageData  from "../config/messageData"
+import messageData1 from "../config/messageSpam";
+import messageData2 from "../config/Placement";
 // import { useNavigate } from "react-router-dom"
 const Dashboard = () => {
     const [popup, setPopup] = useState(false)
@@ -22,6 +24,7 @@ const Dashboard = () => {
     const [unread, setUnread] = useState(0)
     const [starred, setStarred] = useState(0)
     const [database, setDatabase] = useState([])
+    const [search,setSearch]=useState('');
 
     const navigate = useNavigate()
 
@@ -33,6 +36,53 @@ const Dashboard = () => {
     }
     const sidebar = ["Inbox", "Sent"]
     const secondarySidebar= ["Archive", "Spam", "Trash", "All mail"]
+
+    // const labels=["sadsa","dasdsa","dasdsa"]
+     const [labels, setLabels] = useState(['Placement', 'Semester', 'CDC-Training']);
+
+    const [newLabel, setNewLabel] = useState('');
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [constData, setConstData] = useState([]);
+
+    const handleAddLabel = () => {
+        setIsModalOpen(true);
+    };
+    const handleSearch=(e)=>{
+
+        const xx=e.target.value;
+        setSearch(xx);
+        if(xx.trim()!==''){
+            const filteredData = constData.filter(item => {
+                const nikal = Object.values(item).some(value =>
+                    value.toString().toLowerCase().includes(xx.toLowerCase())
+                );
+                console.log(1,nikal);
+                return nikal    ;
+            });
+            setDatabase(filteredData);
+            console.log(2, filteredData, constData);
+        }
+        else{
+            setDatabase(constData);
+        }
+    }
+    const handleModalClose = () => {
+        setIsModalOpen(false);
+    };
+
+    const handleClick=(label)=>{
+        console.log(label);
+        setActiveSidebar(label);
+    }
+
+    const handleModalSubmit = () => {
+        if (newLabel.trim() !== '') {
+            setLabels([...labels, newLabel]);
+            setNewLabel('');
+            setIsModalOpen(false);
+        }
+    };
+
 
     const Popup = () => {
         if (popup) {
@@ -62,11 +112,37 @@ const Dashboard = () => {
         return require("../assets/" + imageName + ".png")
     }
 
-    useEffect(() => {
-        const currentSidebar = activeSidebar < 4 ? sidebar[activeSidebar] : secondarySidebar[activeSidebar - 4]
+    const addSideBar=(buttonText)=>{
+        console.log("hds");
+    }
 
-        document.title = `${currentSidebar} | Swift Mail`
-        setDatabase(messageData);
+    useEffect(() => {
+        let currentSidebar="Inbox";
+        if(activeSidebar<4){
+            currentSidebar=sidebar[activeSidebar];
+        }
+        else if(activeSidebar<8){
+            currentSidebar=secondarySidebar[activeSidebar-4];
+        }
+        else{
+            currentSidebar=labels[activeSidebar-8];
+        }
+
+
+        document.title = `${currentSidebar} | Swift Mail`;
+        if(currentSidebar==="Spam"){
+            setDatabase(messageData1);
+            setConstData(messageData1);
+        }
+        else  if(currentSidebar==="Placement"){
+            setDatabase(messageData2);
+            setConstData(messageData2);
+        }
+        else{
+             setDatabase(messageData);
+             setConstData(messageData);
+        }
+
         
     }, [activeSidebar])
 
@@ -91,7 +167,7 @@ const Dashboard = () => {
                 <div className="upgrade-container">
                     
                     <div className="search-box" >
-                        <input type="text" name="" id="" className="searchbar" placeholder="Search Messages"/>
+                        <input value={search} onChange={handleSearch}  type="text" name="" id="" className="searchbar" placeholder="Search Messages"/>
                     </div>
                     <div>
                         
@@ -116,30 +192,33 @@ const Dashboard = () => {
                 <div className="crash-doe">
                     <button onClick={() => setCompose(prev => !prev)}>Compose Mail</button>
                     {sidebar.map((item, index) => (
-                        <div key={index} 
-                            className={activeSidebar === index ? "recode-hang active" : "recode-hang"}
-                            onClick={() => setActiveSidebar(index)}
-                            onMouseEnter={() => setHovered(item.toLowerCase())}
-                            onMouseLeave={() => setHovered(false)}
+                        <div key={index}
+                             className={activeSidebar === index ? "recode-hang active" : "recode-hang"}
+                             onClick={() => setActiveSidebar(index)}
+                             onMouseEnter={() => setHovered(item.toLowerCase())}
+                             onMouseLeave={() => setHovered(false)}
                         >
-                            <img src={imageLocation(item, index)} alt="" />
+                            <img src={imageLocation(item, index)} alt=""/>
                             {item}
-                            {activeSidebar === index ? <img className="iambic-het" src={RefreshIcon} alt="" /> : undefined}
+                            {activeSidebar === index ?
+                                <img className="iambic-het" src={RefreshIcon} alt=""/> : undefined}
                             {item === "Inbox" ? (
-                                <span className={activeSidebar === 0 ? "textState" : "textState inactive" }>{unread}</span>
+                                <span
+                                    className={activeSidebar === 0 ? "textState" : "textState inactive"}>{unread}</span>
                             ) : undefined}
-                            {item === "Starred" ? (
-                                <span className={activeSidebar === 3 ? "griffins-bad" : "griffins-bad inactive"}>{starred}</span>
+                            {   item === "Starred" ? (
+                                <span
+                                    className={activeSidebar === 3 ? "griffins-bad" : "griffins-bad inactive"}>{starred}</span>
                             ) : undefined}
                         </div>
                     ))}
                     <div className="box1">
-                        <div className={accordian.includes("more") ? "active" : undefined} >
-                            <div 
-                                className={accordian.includes("more") ? "goaded-nus active" : "goaded-nus"} 
+                        <div className={accordian.includes("more") ? "active" : undefined}>
+                            <div
+                                className={accordian.includes("more") ? "goaded-nus active" : "goaded-nus"}
                                 onClick={() => expand("more")}
                             >
-                                <BsChevronRight />
+                                <BsChevronRight/>
                                 {accordian.includes("more") ? "LESS" : "MORE"}
                             </div>
                         </div>
@@ -153,31 +232,62 @@ const Dashboard = () => {
                                             onMouseEnter={() => setHovered(item.toLowerCase())}
                                             onMouseLeave={() => setHovered(false)}
                                         >
-                                            <img src={imageLocation(item, index + 4)} alt="" />
+                                            <img src={imageLocation(item, index + 4)} alt=""/>
                                             {item}
                                         </div>
                                     )
                                 })}
+
+
                             </div>
                         ) : undefined}
-                  
-                       
+
+
                     </div>
-                    
+
+
+                    <div className="box2">
+                        <h2 className={"recode-hang"}>Labels</h2>
+                        <div className={"labels-container"}>
+                            {labels.map((label, index) => (
+                                <div key={index} className="label-item">
+                                    <button onClick={()=>{setActiveSidebar(index+8)}} className={"button123"}>{label}</button>
+                                </div>
+                            ))}
+                        </div>
+                        <button onClick={handleAddLabel}>Add Label</button>
+
+                        {isModalOpen && (
+                            <div className="modal">
+                                <div className="modal-content">
+                                    <h2>Add Label</h2>
+                                    <input
+                                        type="text"
+                                        placeholder="Enter new label"
+                                        value={newLabel}
+                                        onChange={(e) => setNewLabel(e.target.value)}
+                                    />
+                                    <button onClick={handleModalSubmit}>Add</button>
+                                    <button onClick={handleModalClose}>Cancel</button>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+
                 </div>
-      
-                {database.length ? 
-                        <Inbox 
-                            username={username} 
-                            unread={unread}
-                            setUnread={setUnread} 
-                            starred={starred}
-                            setStarred={setStarred} 
-                            sidebar={activeSidebar}
-                            database={database}
-                            setDatabase={setDatabase}
-                        /> : <EmptyFolder />}
-                
+
+                {database.length ?
+                    <Inbox
+                        username={username}
+                        unread={unread}
+                        setUnread={setUnread}
+                        starred={starred}
+                        setStarred={setStarred}
+                        sidebar={activeSidebar}
+                        database={database}
+                        setDatabase={setDatabase}
+                    /> : <EmptyFolder/>}
+
             </div>
         </div>
     )

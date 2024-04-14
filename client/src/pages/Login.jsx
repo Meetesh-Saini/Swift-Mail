@@ -10,14 +10,18 @@ import { BsExclamationCircleFill } from "react-icons/bs";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+
 import api from "../config/backend";
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [checkbox, setCheckbox] = useState(false);
+
   const [errors, setErrors] = useState({
-    username: undefined,
+    email: undefined,
     password: undefined,
   });
   const [loading, setLoading] = useState(false);
@@ -35,7 +39,7 @@ const Login = () => {
   }, []);
 
   useEffect(() => {
-    if (username.length >= 4 && username.length <= 20) {
+    if (email.length >= 4 && email.length <= 20 && !email.includes('@')) {
       setErrors((prev) => {
         return { ...prev, username: undefined };
       });
@@ -44,15 +48,19 @@ const Login = () => {
     setErrors((prev) => {
       return { ...prev, password: undefined };
     });
-  }, [username, password]);
+  }, [email, password]);
 
   const handleSignin = async () => {
-    const storedUsername = localStorage.getItem("username");
+    const storedUsername = localStorage.getItem("Email");
     const storedPassword = localStorage.getItem("password");
-    if(username==storedUsername && storedPassword==password)
+    if(email===storedUsername && storedPassword===password)
     {
 
-      navigate("/dashboard");
+       toast.success('Login successful');
+       navigate("/dashboard");
+    }
+    else{
+     toast.error("Invalid Email or Password");
     }
 
     
@@ -72,11 +80,11 @@ const Login = () => {
           </div>
           <div className="tabstop-ebbs">
             <div className="gumdrops-ace">
-              <span>Email or username</span>
+              <span>Email</span>
               <input
                 className={errors.username ? "error" : undefined}
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
               {errors.username ? (
                 <div className="reemploy-pion">
@@ -129,6 +137,7 @@ const Login = () => {
           
         </div>
       </div>
+
     </div>
   ) : (
     // Loading spinner

@@ -21,9 +21,26 @@ const NewMessage = ({ username, setPopup }) => {
    
     const [loading, setLoading] = useState(false)
     const [notification, setNotification] = useState(undefined)
+    const [tags,setTags]=useState([]);
 
     const handleSend = async () => {
-        
+        //Send The Mail From Here.
+
+        // from here use the tags also to send feture
+    }
+
+    function  handleKeyDown(e){
+        if(e.key !== 'Enter') return
+
+        const value = e.target.value
+      if(value==="")return;
+
+
+        setTags([...tags, value])
+        e.target.value = ''
+    }
+    function removeTag(index){
+        setTags(tags.filter((el, i) => i !== index))
     }
 
     useEffect(() => {
@@ -48,39 +65,52 @@ const NewMessage = ({ username, setPopup }) => {
                     <h2>From</h2>
                     <div className="lycra-rib">
                         <span>{username}@swift.in</span>
-                        
+
                     </div>
                 </div>
                 <div className="flamed-ibex">
                     <h2>To</h2>
                     <div className={focused === "recipient" ? "muntings-deep focused" : "muntings-deep"}>
-                        <input 
-                            placeholder="Email address" 
-                            value={recipient} 
-                            onChange={e => setRecipient(e.target.value)} 
+                        <input
+                            placeholder="Email address"
+                            value={recipient}
+                            onChange={e => setRecipient(e.target.value)}
                             onFocus={() => setFocused("recipient")}
                             onBlur={() => setFocused(false)}
                         />
-                       
+
                     </div>
                 </div>
                 <div className="flamed-ibex">
                     <h2>Subject</h2>
                     <div className={focused === "subject" ? "wiper-duct focused" : "wiper-duct"}>
-                        <input 
-                            placeholder="Subject" 
-                            value={subject} 
-                            onChange={e => setSubject(e.target.value)} 
+                        <input
+                            placeholder="Subject"
+                            value={subject}
+                            onChange={e => setSubject(e.target.value)}
                             onFocus={() => setFocused("subject")}
                             onBlur={() => setFocused(false)}
                         />
                     </div>
                 </div>
+                <div className="CoderTags">
+                    <h4>Add Some Tags</h4>
+                    <div className="tags-input-container">
+                        {tags.map((tag, index) => (
+                            <div className="tag-item" key={index}>
+                                <span className="text">{tag}</span>
+                                <span  onClick={()=>removeTag(index)} className="close">&times;</span>
+                            </div>
+                        ))}
+                        <input onKeyDown={handleKeyDown} type="text" className="tags-input"
+                               placeholder="Type somthing"/>
+                    </div>
+                </div>
                 <div className="eloiners-pep">
-                    
+
                 </div>
                 <div className="bides-aril">
-                    <textarea value={message} onChange={e => setMessage(e.target.value)} />
+                    <textarea value={message} onChange={e => setMessage(e.target.value)}/>
                 </div>
                 {notification ? (
                     <div className="chiggers-cede">
@@ -89,13 +119,13 @@ const NewMessage = ({ username, setPopup }) => {
                 ) : undefined}
             </div>
             <div className={"footer"}>
-                
+
                 <div>
-                    
+
                     <div className="firebug-bum" onClick={() => handleSend()}>
-                        {loading ? <img src={Spinner} alt="" /> : "Send"}
+                        {loading ? <img src={Spinner} alt=""/> : "Send"}
                         <div>
-                            <RiArrowDownSFill />
+                            <RiArrowDownSFill/>
                         </div>
                     </div>
                 </div>

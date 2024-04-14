@@ -49,6 +49,8 @@ const Inbox = ({
   const [undoAction, setUndoAction] = useState(undefined);
   const [openedEmail, setOpenedEmail] = useState(undefined);
 
+
+
   const messageSelector = ["All", "Read", "Unread"];
   const sidebarNames = [
     "Inbox",
