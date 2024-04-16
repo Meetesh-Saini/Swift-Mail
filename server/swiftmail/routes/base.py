@@ -18,7 +18,7 @@ def login():
 
         email = data["email"]
         password = data["password"]
-        expires_delta = datetime.timedelta(minutes=30)
+        expires_delta = datetime.timedelta(days=7)
         user = mongo.db.users.find_one_or_404({"email": email})
         if user["email"] == email and user["password"] == password:
             access_token = create_access_token(
