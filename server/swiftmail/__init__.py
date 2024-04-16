@@ -26,6 +26,7 @@ def create_app():
     app.register_blueprint(base_router)
     app.register_blueprint(mail_router, url_prefix="/mail")
     app.register_blueprint(group_router, url_prefix="/group")
+    app.register_blueprint(search_router, url_prefix="/search")
 
     # Initialising extentions
     jwt.init_app(app)

@@ -38,7 +38,7 @@ def send_mail():
         {
             "email": current_user,
             "mail_id": record.inserted_id,
-            "archieve": False,
+            "archive": False,
             "star": False,
             "trash": False,
             "read": True,
@@ -52,7 +52,7 @@ def send_mail():
             {
                 "email": email,
                 "mail_id": record.inserted_id,
-                "archieve": False,
+                "archive": False,
                 "star": False,
                 "trash": False,
                 "read": False,
@@ -101,7 +101,7 @@ def get_mails():
             rec["body"] = record["body"]
             rec["labels"] = record["labels"]
             rec["date"] = record["date"]
-            rec["archieve"] = option["archieve"]
+            rec["archive"] = option["archive"]
             rec["star"] = option["star"]
             rec["trash"] = option["trash"]
             rec["read"] = option["read"]
@@ -121,7 +121,7 @@ def option_toggle():
     option_id = data["oid"]
     option = data["option"]
 
-    allowed_options = ["archieve", "star", "trash", "read", "spam"]
+    allowed_options = ["archive", "star", "trash", "read", "spam"]
 
     if option not in allowed_options:
         return Response(status=HTTPStatus.BAD_REQUEST)

@@ -14,8 +14,8 @@ def add_group():
 
     key_group = data["key_group"]
     group_name = data["group_name"]
-    mail_ids = data["emails"]
-    labels = data["labels"]
+    mail_ids = data.get("emails", [])
+    labels = data.get("labels", [])
 
     mongo.db.group.update_one(
         {"email": current_user, "group_name": key_group},
