@@ -6,7 +6,12 @@ from swiftmail.utils.auth import user_exist
 from http import HTTPStatus
 from bson import ObjectId
 
+
+from swiftmail.model.spam import detect
+
+
 router = Blueprint("mail", __name__)
+
 
 
 @router.post("/")
@@ -22,6 +27,11 @@ def send_mail():
     for user in data["to"]:
         if not user_exist(user):
             return jsonify(msg=f"User {user} not found"), 400
+
+
+    isSpam = detect(data["body"]) or detect(data["subject"])
+
+
 
     record = mongo.db.mail.insert_one(
         {
@@ -42,7 +52,7 @@ def send_mail():
             "star": False,
             "trash": False,
             "read": True,
-            "spam": False,
+            "spam": isSpam,
             "expires": None,
         }
     )
@@ -56,7 +66,7 @@ def send_mail():
                 "star": False,
                 "trash": False,
                 "read": False,
-                "spam": False,
+                "spam": isSpam,
                 "expires": None,
             }
             for email in data["to"]
