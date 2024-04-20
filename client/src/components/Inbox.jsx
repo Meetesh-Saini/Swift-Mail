@@ -28,6 +28,7 @@ import TrashBlue from "../assets/Blue/Trash.png";
 import InvertedMailbox from "../assets/Blue/MailboxInverted.png";
 
 import axios from "axios";
+import messageData from "../config/messageData";
 
 
 const Inbox = ({
@@ -38,6 +39,12 @@ const Inbox = ({
   sidebar,
   database,
   setDatabase,
+  inbox,
+  setInboxMails,
+  archive,
+  setArchive,
+  trash,
+  setTrash
 }) => {
   const [checkbox, setCheckbox] = useState(false);
   const [activeRead, setActiveRead] = useState(0);
@@ -79,10 +86,133 @@ const Inbox = ({
     LabelHover,
   ];
 
-  const selectedEmail = messages.find((item) => item.hash === openedEmail);
+  const selectedEmail = messages.find((item) => item.hash === openedEmail) || [];
+
+  // this side once;.
+
+  async function handleTrashButtonClick(curr) {
+    try {
+   
+      const token = localStorage.getItem('access_token');
+  
+      const payload = {
+        option: "trash",
+        mid: curr.mid,
+        oid: curr.oid
+      };
+  
+      const response = await fetch("http://localhost:5000/mail/", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(payload)
+      });
+  
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      
+      setDatabase(prev=>prev.filter(item=>item.oid!==curr.oid))
+      const archiveIndex = archive.findIndex(item => item.oid === curr.oid);
+
+      // If the email exists in the archive, remove it
+      if (archiveIndex !== -1) {
+          // Create a new array with the email removed
+          const updatedArchive = archive.filter((_, idx) => idx !== archiveIndex);
+      
+          // Update the archive state
+          setArchive(updatedArchive);
+      }
+  
+   const index = inbox.findIndex(item => item.oid === curr.oid);
+// If the email exists in the inbox, remove it
+if (index !== -1) {
+    // Create a new array with the email removed
+    const updatedInbox = inbox.filter((_, idx) => idx !== index);
+
+    // Update the inbox state
+    setInboxMails(updatedInbox);
+}
+  
+
+      
+
+  
+     
 
 
-  useEffect(() => {
+    } catch (error) {
+      // Handle error
+      console.error("Error moving mail to trash:", error);
+    }
+  }
+
+  async function handleArchiveClick(curr){
+    try {
+     
+  
+      const token = localStorage.getItem('access_token');
+  
+      const payload = {
+        option: "archive",
+        mid: curr.mid,
+        oid: curr.oid
+      };
+  
+      const response = await fetch("http://localhost:5000/mail/", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(payload)
+      });
+  
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      setDatabase(prev=>prev.filter(item=>item.oid!==curr.oid))
+      const archiveIndex = archive.findIndex(item => item.oid === curr.oid);
+
+      // If the email exists in the archive, remove it
+      if (archiveIndex !== -1) {
+          // Create a new array with the email removed
+          const updatedArchive = archive.filter((_, idx) => idx !== archiveIndex);
+      
+          // Update the archive state
+          setArchive(updatedArchive);
+      }
+  
+   const index = inbox.findIndex(item => item.oid === curr.oid);
+// If the email exists in the inbox, remove it
+if (index !== -1) {
+    // Create a new array with the email removed
+    const updatedInbox = inbox.filter((_, idx) => idx !== index);
+
+    // Update the inbox state
+    setInboxMails(updatedInbox);
+}
+  
+
+      
+
+      
+
+      // Reload the page to reflect the changes
+      // window.location.reload();
+      // this will set mail trash.
+    } catch (error) {
+      // Handle error
+      console.error("Error moving mail to archive:", error);
+    }
+
+  }
+  
+
+useEffect(() => {
     
 
     // Inbox
@@ -99,6 +229,7 @@ const Inbox = ({
 
         setStarred(starred.length);
       }
+      
     }
 
     // Filter read or unread messages
@@ -151,7 +282,7 @@ const Inbox = ({
         <div className="container">
           <div>
             <div className="pryers-seas">
-              {/* <div>
+               <div>
                 {messageSelector.map((item, index) => {
                   return (
                     <button
@@ -163,7 +294,7 @@ const Inbox = ({
                     </button>
                   );
                 })}
-              </div> */}
+              </div> 
               <div>
                 
               </div>
@@ -185,8 +316,15 @@ const Inbox = ({
                           ? "voidness-bam active"
                           : "voidness-bam"
                       }
-                      onClick={() => setOpenedEmail(item.hash)}
-                      onMouseEnter={() => setActiveMessage(item.hash)}
+                      onClick={() =>{
+                        setOpenedEmail(item.hash);
+                        item.read=true;
+                       
+                      }}
+                      onMouseEnter={() => {
+                        setActiveMessage(item.hash);
+                       
+                    }}
                       onMouseLeave={() => setActiveMessage(false)}
                     >
                       {checkbox === true ? (
@@ -222,6 +360,7 @@ const Inbox = ({
                           onClick={(e) => e.stopPropagation()}
                         >
                           <div className="crisis-sons">
+                         
                             {item.read === false ? (
                               <img
                                 
@@ -243,6 +382,7 @@ const Inbox = ({
                             className="crisis-sons"
                             
                           >
+                          
                             <img
                               className="psalmed-vast"
                               src={
@@ -251,6 +391,7 @@ const Inbox = ({
                                   : DeleteIcon
                               }
                               alt=""
+                              onClick={() => handleTrashButtonClick(item)}
                             />
                           </div>
                           <div
@@ -264,6 +405,7 @@ const Inbox = ({
                                   : BucketIcon
                               }
                               alt=""
+                              onClick={() => handleArchiveClick(item)}
                             />
                           </div>
                          
