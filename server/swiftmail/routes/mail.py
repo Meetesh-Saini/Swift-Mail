@@ -6,8 +6,11 @@ from swiftmail.utils.auth import user_exist
 from http import HTTPStatus
 from bson import ObjectId
 
-router = Blueprint("mail", __name__)
+from flask import Flask, request,jsonify
+from flask_cors import CORS
 
+router = Blueprint("mail", __name__)
+# CORS(router)
 
 @router.post("/")
 @jwt_required()

@@ -51,16 +51,37 @@ const Login = () => {
   }, [email, password]);
 
   const handleSignin = async () => {
-    const storedUsername = localStorage.getItem("Email");
-    const storedPassword = localStorage.getItem("password");
-    if(email===storedUsername && storedPassword===password)
-    {
 
-       toast.success('Login successful');
-       navigate("/dashboard");
+    const sendData={
+      email:email,
+      password:password
+    };
+    try {
+      const response = await fetch('http://localhost:5000/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(sendData)
+      });
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const responseData = await response.json();
+
+    localStorage.setItem('access_token',responseData.access_token);
+    localStorage.setItem('name',email);
+      toast.success('Login successful');
+
+      navigate("/dashboard");
+
+    // else
+    //   {
+    //     toast.error("Invalid Email or Password");
+    //   }
     }
-    else{
-     toast.error("Invalid Email or Password");
+    catch (error){
+      toast.error("Incorrect Username or Password");
     }
 
     
