@@ -94,19 +94,49 @@ const Register = () => {
     return true;
   };
 
-  const handleRegister = () => {
+  const handleRegister = async() => {
+
+    const DataTobeSent={
+      name:name,
+      email:Email,
+      password:password,
+      mobile:phone
+    };
+
     const isPasswordValid=checkPasswords();
     if(!isPasswordValid){
-      console.log("Not Submired");
+      console.log("Not Submited");
       return;
     }
 
-    localStorage.setItem("Name",name);
-    localStorage.setItem("username",Email);
-    localStorage.setItem("Email",Email);
-    localStorage.setItem("password", password);
-    localStorage.setItem("Mobile",phone);
-    navigate("/")
+    try {
+      const response = await fetch('http://localhost:5000/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(DataTobeSent)
+      });
+
+      if (!response.ok) {
+        console.log('Network response was not ok');
+      }
+
+      const responseData = await response.json();
+      console.log(responseData); // Handle response data as needed
+      console.log("All Goid DSSD");
+      navigate("/")
+    }
+    catch (error) {
+      console.error('There was a problem with the fetch operation:', error);
+    }
+    //
+    // localStorage.setItem("Name",name);
+    // localStorage.setItem("username",Email);
+    // localStorage.setItem("Email",Email);
+    // localStorage.setItem("password", password);
+    // localStorage.setItem("Mobile",phone);
+
 
   };
 

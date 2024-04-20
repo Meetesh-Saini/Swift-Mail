@@ -12,6 +12,8 @@ import { BsChevronDown } from "react-icons/bs"
 import { RiArrowDownSFill } from "react-icons/ri"
 import axios from "axios"
 import api from "../config/backend"
+import {toast} from "react-toastify";
+
 
 const NewMessage = ({ username, setPopup }) => {
     const [recipient, setRecipient] = useState("")
@@ -24,11 +26,38 @@ const NewMessage = ({ username, setPopup }) => {
     const [tags,setTags]=useState([]);
 
     const handleSend = async () => {
-        //Send The Mail From Here.
+        const token = localStorage.getItem('access_token');
+        if (!token) {
+            toast.error('Access token not found');
+            return;
+        }
+    
+        const data = {
+            to: [recipient],
+            subject: subject,
+            body: message,
+            labels: tags
+        };
+        try {
+            const response = await fetch('http://localhost:5000/mail/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(data)
+            });
+            if (!response.ok) {
+                toast.error("Failed to send message. Please try again later.");
+                return;
+            }
+           toast.success("Message Sent Successfully");
+        } catch (error) {
+            toast.error("Error Sending Message", error.message || error.toString());
+        }
+    };
 
-        // from here use the tags also to send feture
-    }
-
+    
     function  handleKeyDown(e){
         if(e.key !== 'Enter') return
 

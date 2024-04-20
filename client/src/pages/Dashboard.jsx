@@ -15,6 +15,8 @@ import messageData  from "../config/messageData"
 import messageData1 from "../config/messageSpam";
 import messageData2 from "../config/Placement";
 // import { useNavigate } from "react-router-dom"
+import {toast} from "react-toastify";
+
 const Dashboard = () => {
     const [popup, setPopup] = useState(false)
     const [activeSidebar, setActiveSidebar] = useState(0)
@@ -24,21 +26,27 @@ const Dashboard = () => {
     const [unread, setUnread] = useState(0)
     const [starred, setStarred] = useState(0)
     const [database, setDatabase] = useState([])
+    const [archivedEmails, setArchivedEmails] = useState([]);
+    const [trash,setTrash]=useState([]);
+    const [Spam, setSpam] = useState([]);
+    const [emailsByLabel, setEmailsByLabel] = useState({});
     const [search,setSearch]=useState('');
+    const [bigConst,setbigConst]=useState([])
+    const [inboxMails,setInboxMails]=useState([])
 
     const navigate = useNavigate()
 
-    let username = localStorage.getItem("username")
+    let username = localStorage.getItem("name")
 
     if (username === null) {
         username = "undefined"
         navigate("/account/sign-in")
     }
     const sidebar = ["Inbox", "Sent"]
-    const secondarySidebar= ["Archive", "Spam", "Trash", "All mail"]
+    const secondarySidebar= ["Archive", "Spam", "Trash", "All mail"]    
 
     // const labels=["sadsa","dasdsa","dasdsa"]
-     const [labels, setLabels] = useState(['Placement', 'Semester', 'CDC-Training']);
+     const [labels, setLabels] = useState([]);
 
     const [newLabel, setNewLabel] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -47,31 +55,34 @@ const Dashboard = () => {
     const handleAddLabel = () => {
         setIsModalOpen(true);
     };
-    const handleSearch=(e)=>{
-
-        const xx=e.target.value;
+    
+    const handleSearch = (e) => {
+      
+        const xx = e.target.value;
         setSearch(xx);
-        if(xx.trim()!==''){
-            const filteredData = constData.filter(item => {
-                const nikal = Object.values(item).some(value =>
-                    value.toString().toLowerCase().includes(xx.toLowerCase())
-                );
-                console.log(1,nikal);
-                return nikal    ;
-            });
-            setDatabase(filteredData);
-            console.log(2, filteredData, constData);
+        if (xx.trim() !== '') {
+         const filteredData = database ? database.filter(item => {
+            const nikal = Object.values(item).some(value =>
+              value && value.toString().toLowerCase().includes(xx.toLowerCase())
+            );
+          
+    
+            return nikal;
+          }) : [];
+          setDatabase(filteredData);
+         
+
+        } else {
+          setDatabase(constData || []);
         }
-        else{
-            setDatabase(constData);
-        }
-    }
+      }
+
     const handleModalClose = () => {
         setIsModalOpen(false);
     };
 
     const handleClick=(label)=>{
-        console.log(label);
+     
         setActiveSidebar(label);
     }
 
@@ -113,15 +124,118 @@ const Dashboard = () => {
     }
 
     const addSideBar=(buttonText)=>{
-        console.log("hds");
+       
     }
 
+    const GetMails = async () => {
+
+        const token = localStorage.getItem('access_token');
+        if (!token) {
+          toast.error("Token Not Found Login Again");
+            return;
+        }
+
+        // const data = {
+        //     option: option
+        // };
+
+        try {
+          
+            const response = await fetch('http://localhost:5000/mail/', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+
+            });
+        
+
+            if (response.status!==200) {
+                throw new Error('Failed to change option');
+            }
+   
+
+            const archived1 = [];
+            const trash1=[];
+            const spam1=[];
+            const labelsMap1={};
+            const responseData = await response.json();
+            let xyz=[];
+           
+            setLabels(responseData.labels);
+            let zz=responseData.mails;
+          
+            zz = zz.filter((mail, index) => {
+               
+                mail.hash = index;
+            
+                if (mail.archive) {
+                    
+                    archived1.push(mail);
+                    return false; 
+                } else if (mail.trash) {
+                    
+                    trash1.push(mail);
+                    return false; 
+                } else if (mail.spam) {
+                    spam1.push(mail);
+                }
+            
+                mail.labels.forEach(labelx => {
+                    if (!labelsMap1[labelx]) {
+                        labelsMap1[labelx] = [];
+                    }
+                    labelsMap1[labelx].push(mail);
+                });
+            
+                return true;
+            });
+            
+            
+           
+            setArchivedEmails(archived1);
+            
+            setSpam(spam1);
+            setTrash(trash1);
+          
+            setEmailsByLabel(labelsMap1);
+
+
+            setDatabase(zz);
+            setInboxMails(zz);
+            setbigConst(zz);
+           
+            setConstData(zz);
+           
+            
+
+
+
+        } catch (error) {
+            toast.error(" Dashboard Error Try Again");
+          
+        }
+    };
+
+
     useEffect(() => {
+      
+    
+        
         let currentSidebar="Inbox";
-        if(activeSidebar<4){
+        currentSidebar=sidebar[activeSidebar];
+      
+        if(currentSidebar==="Inbox"){
+         
+            setDatabase(inboxMails);
+        
+         }
+         else if(activeSidebar<4){
             currentSidebar=sidebar[activeSidebar];
         }
         else if(activeSidebar<8){
+           
             currentSidebar=secondarySidebar[activeSidebar-4];
         }
         else{
@@ -130,27 +244,63 @@ const Dashboard = () => {
 
 
         document.title = `${currentSidebar} | Swift Mail`;
-        if(currentSidebar==="Spam"){
-            setDatabase(messageData1);
-            setConstData(messageData1);
+        
+       console.log(currentSidebar);
+      if(currentSidebar!=="Inbox"){
+       
+        if(currentSidebar=="Archive"){
+          
+           
+            setDatabase(archivedEmails);
+           
+
         }
-        else  if(currentSidebar==="Placement"){
-            setDatabase(messageData2);
-            setConstData(messageData2);
+        else if(currentSidebar==="Spam"){
+            setDatabase(Spam);
+        }
+        else if(currentSidebar==="Trash"){
+          
+            setDatabase(trash);
+        }
+        
+        else if(activeSidebar===7){
+           
+            setDatabase(bigConst);
         }
         else{
-             setDatabase(messageData);
-             setConstData(messageData);
+            // its labels.
+           
+          let dataFromLabels=emailsByLabel[currentSidebar] || [];
+         
+
+            setDatabase(dataFromLabels);
+           
         }
+        setConstData(database);
+    }
+    else{
+        setConstData(bigConst);
+    }
+       
+
 
         
     }, [activeSidebar])
 
 
+    useEffect(() => {
+       
+
+        GetMails();
+
+
+        
+    }, [])
 
     const handleSignout = () => {
         localStorage.removeItem("username")
         localStorage.removeItem("password")
+        localStorage.removeItem("access_token");
         navigate("/account/sign-in")
     }
 
@@ -286,6 +436,12 @@ const Dashboard = () => {
                         sidebar={activeSidebar}
                         database={database}
                         setDatabase={setDatabase}
+                        inbox={inboxMails}
+                        setInboxMails={setInboxMails}
+                        archive={archivedEmails}
+                        setArchive={setArchivedEmails}
+                        trash={trash}
+                        setTrash={setTrash}
                     /> : <EmptyFolder/>}
 
             </div>

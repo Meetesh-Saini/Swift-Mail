@@ -3,7 +3,9 @@ from swiftmail import mongo
 import datetime
 from flask_jwt_extended import create_access_token
 
+
 router = Blueprint("base", __name__)
+
 
 
 @router.route("/", methods=["GET"])
